@@ -15,9 +15,9 @@ public class RoomHomeButton : MonoBehaviour
     public Color deactiveBackgroundColor;
     public Color activeIconColor;
     public Color deactiveIconColor;
-    public void OnRoomButtonClick(string roomName)
+    public void OnRoomButtonClick()
     {
-        DataTransferManager.Instance.ChangedRoom = roomName;
+        DataTransferManager.Instance.ChangedRoom = GetComponent<Room>().roomName;
     }
     public void SetStatus(bool active)
     {

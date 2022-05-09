@@ -449,7 +449,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa95bbfa8f1332f47ae25d4047ea081c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 1
+  deviceFragment: {fileID: 0}
+  state: 0
   anim: {fileID: 7861972363728635055}
   text: {fileID: 7861972363413301882}
 --- !u!222 &7861972363728635052

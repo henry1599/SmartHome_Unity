@@ -5,7 +5,7 @@ using JSONExtension;
 
 public class TempHumi : Jsonable
 {
-    public TempHumi(int _id, string _cmd, string _name, string _paras)
+    public TempHumi(int _id, string _cmd, string _name, List<double> _paras)
     {
         id = _id;
         cmd = _cmd;

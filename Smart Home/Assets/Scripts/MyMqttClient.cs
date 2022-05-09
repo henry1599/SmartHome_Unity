@@ -8,9 +8,11 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 using M2MqttUnity;
 using TMPro;
 using JSONExtension;
-
+using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 public class MyMqttClient : M2MqttUnityClient
 {
+    public static MyMqttClient Instance {get; set;}
     [Tooltip("Set this to true to perform a testing cycle automatically on startup")]
     public bool autoTest = false;
     [Header("User Interface")]
@@ -19,10 +21,27 @@ public class MyMqttClient : M2MqttUnityClient
 
     private List<string> eventMessages = new List<string>();
     private bool updateUI = false;
-
-    public void TestPublish()
+    public static event Action<bool> OnUpdateDeviceStatus;
+    public static event Action<bool> OnAddDeviceSuccessfully;
+    public static event Action<bool> OnRemoveDeviceSuccessfully;
+    protected override void Awake()
     {
-        client.Publish(this.publishTopic, System.Text.Encoding.UTF8.GetBytes("Hello"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+    }
+
+    public void Publish(string json)
+    {
+        client.Publish(this.publishTopic, System.Text.Encoding.UTF8.GetBytes(json), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
         Debug.Log("Test message published");
         // AddUiMessage("Test message published.");
     }
@@ -104,19 +123,76 @@ public class MyMqttClient : M2MqttUnityClient
         base.Connect();
     }
 
+    /// <summary>
+    /// * Receive message from mqtt server
+    /// </summary>
+    /// <param name="topic"></param>
+    /// <param name="message"></param>
     protected override void DecodeMessage(string topic, byte[] message)
     {
         string msg = System.Text.Encoding.UTF8.GetString(message);
         Debug.Log("Received: " + msg);
-        if (msg.Contains("TempHumi"))
+        if (msg.Contains("TempHumi") && SceneManager.GetActiveScene().name == "Home Scene")
         {
-            TempHumi tempHumi = TempHumi.FromJsonToObject(msg);
-            List<string> tempHumiValues = tempHumi.ExtractParas();
-            tempText.text = tempHumiValues[0].ToString();
-            humiText.text = tempHumiValues[1].ToString();
+            HandleTempHumi(msg);
+        }
+        else if (msg.Contains("open") || msg.Contains("close"))
+        {
+            HandleUpdateDeviceStatus(msg);
+        }
+        else if (msg.Contains("add"))
+        {
+            HandleAddNewDevice(msg);
+        }
+        else if (msg.Contains("del"))
+        {
+            HandleRemoveDevice(msg);
         }
         // print(TempHumi.FromJsonToObject(msg).name);
         StoreMessage(msg);
+    }
+    void HandleTempHumi(string msg)
+    {
+        // if (tempText == null || humiText == null)
+        // {
+        //     return;
+        // }
+        TempHumi tempHumi = JsonConvert.DeserializeObject<TempHumi>(msg);
+        print(tempHumi.paras[0].ToString());
+        print(tempHumi.paras[1].ToString());
+        tempText.text = ((int)tempHumi.paras[0]).ToString() + "°C";
+        humiText.text = ((int)tempHumi.paras[1]).ToString() + "%";
+    }
+    void HandleUpdateDeviceStatus(string msg)
+    {
+        // print("Invoke successfully");
+        MqttJsonClass mqttJsonClass = JsonConvert.DeserializeObject<MqttJsonClass>(msg);
+        // print(RoomManager.Instance.clickedSwitch);
+        if (RoomManager.Instance.clickedSwitch == null)
+        {
+            RoomManager.Instance.UpdateDeviceListener(mqttJsonClass.id, mqttJsonClass.cmd == "open" ? true : false, mqttJsonClass.name);
+        }
+        else
+        {
+            OnUpdateDeviceStatus?.Invoke(msg.Contains("success"));
+        }
+    }
+    void HandleAddNewDevice(string msg)
+    {
+        OnAddDeviceSuccessfully?.Invoke(msg.Contains("success"));
+    }
+    void HandleRemoveDevice(string msg)
+    {
+        MqttJsonClass mqttJsonClass = JsonConvert.DeserializeObject<MqttJsonClass>(msg);
+        if (RoomManager.Instance.deviceFragmentRemoveButtonClick == null)
+        {
+            RoomManager.Instance.DeleteDeviceListener((int)mqttJsonClass.id);
+        }
+        else
+        {
+            OnRemoveDeviceSuccessfully?.Invoke(msg.Contains("success"));
+        }
+        // print("$ Remove messge : {msg}");
     }
 
     private void StoreMessage(string eventMsg)
@@ -141,10 +217,6 @@ public class MyMqttClient : M2MqttUnityClient
             }
             eventMessages.Clear();
         }
-        // if (updateUI)
-        // {
-        //     UpdateUI();
-        // }
     }
 
     private void OnDestroy()

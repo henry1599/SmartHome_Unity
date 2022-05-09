@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Net;
+using System.IO;
 
-    public class HomeSceneManager : MonoBehaviour
+public class HomeSceneManager : MonoBehaviour
     {
         public HomeHeaderTab roomTabButton;
         public HomeHeaderTab tempAndHumiTabButton;
@@ -18,10 +22,14 @@ using UnityEngine.UI;
         public Animator mainPanelAnim;
         public HomeState state;
         public DashBoardState dashBoardState;
+        public Transform roomField;
+        public List<Room> roomTemplates;
+        bool isLoadedRooms;
         void Start()
         {
 
             state = HomeState.Home;
+            isLoadedRooms = false;
 
             roomTabButton.SetStatus(true);
             tempAndHumiTabButton.SetStatus(false);
@@ -96,13 +104,16 @@ using UnityEngine.UI;
         }
         public void HandleStatState()
         {
+            isLoadedRooms = false;
         }
         public void HandleSettingState()
         {
+            isLoadedRooms = false;
 
         }
         public void HandleAddRoomState()
         {
+            isLoadedRooms = false;
 
         }
         public void HandleRoomDashBoardState()
@@ -122,18 +133,48 @@ using UnityEngine.UI;
             roomtempPanelAnim.SetBool("isRoom", true);
             roomtempPanelAnim.SetBool("isAddRoom", false);
             roomtempPanelAnim.SetBool("isTemp", false);
+            if (isLoadedRooms)
+            {
+                return;
+            }
+            LoadAllRooms();
         }
         public void OnShowTempPanel()
         {
             roomtempPanelAnim.SetBool("isRoom", false);
             roomtempPanelAnim.SetBool("isAddRoom", false);
             roomtempPanelAnim.SetBool("isTemp", true);
+            isLoadedRooms = false;
         }
         public void OnShowAddRoomPanel()
         {
             roomtempPanelAnim.SetBool("isRoom", false);
             roomtempPanelAnim.SetBool("isAddRoom", true);
             roomtempPanelAnim.SetBool("isTemp", false);
+        }
+        void LoadAllRooms()
+        {
+            Helper.DeletChildren(roomField);
+            string allRoomsJson = ResponseFromGetRequest(G_URL.GetAllRooms);
+            DATA.ALL_ROOMS = JsonConvert.DeserializeObject<R_AllRooms>(allRoomsJson);
+            // foreach(R_DataRoom dataRoom in DATA.ALL_ROOMS.data)
+            // {
+            //     Instantiate(roomTemplates.Find(r => r.roomName == dataRoom.name).gameObject, roomField);
+            // }
+            DATA.ALL_ROOMS.data.ForEach(r => {
+                Instantiate(roomTemplates.Find(rt => rt.roomName == r.name).gameObject, roomField);
+            });
+            isLoadedRooms = true;
+        }
+        public string ResponseFromGetRequest(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            string responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            return responseString.ToString();
         }
         public void UpdateState(HomeState newState)
         {

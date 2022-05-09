@@ -9,7 +9,7 @@ public class RoomSceneButton : MonoBehaviour
     {
         if (RoomManager.Instance.state == RoomState.AddDevice)
         {
-            RoomManager.Instance.UpdateState(RoomState.LightView);
+            RoomManager.Instance.UpdateState(RoomState.View);
         }
         else
         {

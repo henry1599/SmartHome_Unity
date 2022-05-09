@@ -7,7 +7,7 @@ using System;
 public class DataTransferManager : MonoBehaviour
 {
     public static DataTransferManager Instance {get; set;}
-    private string whatRoomToBeChanged;
+    public static string whatRoomToBeChanged;
     public static event Action OnRoomChangedFromHome;
     public string ChangedRoom
     {

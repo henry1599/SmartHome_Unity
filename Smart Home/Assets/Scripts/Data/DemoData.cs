@@ -80,3 +80,17 @@ public static class DemoData
         )
     };
 }
+public static class DATA
+{
+    public static R_AllDevices ALL_DEVICE;
+    public static R_AllRooms ALL_ROOMS;
+    public static R_DataRoom CURRENT_ROOM;
+    public static R_AllDevices ALL_DEVICES_IN_CURRENT_ROOM;
+}
+
+public static class GET_URL 
+{
+    public const string GET_ALL_ROOMS = "http://localhost:5000/room/all";
+    public const string GET_ALL_DEVICES = "http://localhost:5000/device/all";
+    public const string DEMO_STRING = "{\"data\":[{\"_id\": \"6255325804cc8b5a55baa2fe\",\"id\": 2022412145816,\"name\": \"Đèn bếp\",\"status\": false,\"type\": \"led\",\"roomId\": 202232910475,\"capacity\": 36,\"duration\": 11316,\"lastUse\": \"2022-04-12T07:58:36.281Z\",\"createdAt\": \"2022-04-12T08:03:36.530Z\",\"updatedAt\": \"2022-04-12T08:03:48.694Z\",\"__v\": 0}]}";
+}

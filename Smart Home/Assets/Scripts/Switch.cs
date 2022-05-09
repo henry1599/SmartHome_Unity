@@ -5,17 +5,15 @@ using TMPro;
 
 public class Switch : MonoBehaviour
 {
+    public DeviceFragment deviceFragment;
     public SwitchState state;
     public Animator anim;
     public TMP_Text text;
+    public static event System.Action<Switch> OnSwitchClick;
     public void OnToggle()
     {
-        state = state == SwitchState.On ? SwitchState.Off : SwitchState.On;
-        anim.SetBool("isOn", state == SwitchState.On);
-        if (text != null)
-        {
-            text.text = state == SwitchState.On ? "On" : "Off";
-        }
+        RoomManager.Instance.UpdateDeviceStatus(deviceFragment.id, state == SwitchState.On ? false : true, deviceFragment.type);
+        OnSwitchClick?.Invoke(this);
     }
     public void SetStatus(bool active)
     {
