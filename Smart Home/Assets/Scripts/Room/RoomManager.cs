@@ -140,7 +140,7 @@ public class RoomManager : MonoBehaviour
         // print($"Room id : {DATA.CURRENT_ROOM.id}");
         isCurrentRoomLoaded = true;
     }
-    void LoadAllDeviceInCurrentRoom()
+    public void LoadAllDeviceInCurrentRoom()
     {
         Helper.DeletChildren(deviceField);
         long currentRoomId = DATA.CURRENT_ROOM.id;

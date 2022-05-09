@@ -179,7 +179,14 @@ public class MyMqttClient : M2MqttUnityClient
     }
     void HandleAddNewDevice(string msg)
     {
-        OnAddDeviceSuccessfully?.Invoke(msg.Contains("success"));
+        if (RoomManager.Instance.newDeviceClick == null)
+        {
+            RoomManager.Instance.LoadAllDeviceInCurrentRoom();
+        }
+        else
+        {
+            OnAddDeviceSuccessfully?.Invoke(msg.Contains("success"));
+        }
     }
     void HandleRemoveDevice(string msg)
     {
