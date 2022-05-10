@@ -50,6 +50,7 @@
      <Compile Include="Assets\M2Mqtt\WinRT\MqttNetworkChannel.cs" />
      <Compile Include="Assets\M2Mqtt\MqttSettings.cs" />
      <Compile Include="Assets\Scripts\Login\LoginSceneManager.cs" />
+     <Compile Include="Assets\Scripts\Graphs\Graph.cs" />
      <Compile Include="Assets\M2MqttUnity\Scripts\M2MqttUnityClient.cs" />
      <Compile Include="Assets\M2Mqtt\Messages\MqttMsgUnsubscribe.cs" />
      <Compile Include="Assets\M2MqttUnity\Examples\Scripts\M2MqttUnityTest.cs" />
@@ -76,6 +77,7 @@
      <Compile Include="Assets\M2Mqtt\WinRT\Queue.cs" />
      <Compile Include="Assets\Scripts\Room\RoomTabButton.cs" />
      <Compile Include="Assets\M2Mqtt\Internal\MsgPublishedInternalEvent.cs" />
+     <Compile Include="Assets\Scripts\SafeArea.cs" />
      <Compile Include="Assets\Scripts\Helper.cs" />
      <Compile Include="Assets\M2Mqtt\Net\MqttNetworkChannel.cs" />
      <Compile Include="Assets\M2MqttUnity\Scripts\BrokerSettings.cs" />
@@ -115,6 +117,7 @@
      <Compile Include="Assets\M2Mqtt\Messages\MqttMsgPubcomp.cs" />
      <Compile Include="Assets\M2Mqtt\Internal\MsgInternalEvent.cs" />
      <Compile Include="Assets\M2Mqtt\Exceptions\MqttClientException.cs" />
+     <Compile Include="Assets\Scripts\Home\StatisticFragment.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
