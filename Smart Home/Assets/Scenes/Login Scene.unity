@@ -568,7 +568,7 @@ MonoBehaviour:
   publishTopic: kimhungtdblla24/feeds/ttda-cnpm-so2ha
   autoConnect: 0
   mqttUserName: kimhungtdblla24
-  mqttPassword: aio_JOhS96WsuTBbWfch3xZs0mkeLqUE
+  mqttPassword: aio_ePMZ71gOBJ9nbkCBvmLZJvyONBBf
   autoTest: 0
   tempText: {fileID: 0}
   humiText: {fileID: 0}

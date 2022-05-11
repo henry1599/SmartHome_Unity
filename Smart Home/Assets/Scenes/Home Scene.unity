@@ -541,9 +541,6 @@ MonoBehaviour:
   homeFooterButton: {fileID: 1941840113}
   statFooterButton: {fileID: 1848393872}
   settingFooterButton: {fileID: 1824910329}
-  dayHeaderButton: {fileID: 0}
-  weekHeaderButton: {fileID: 0}
-  monthHeaderButton: {fileID: 0}
   offEnergyButton: {fileID: 665695703}
   leftHomeButton: {fileID: 1087901417}
   cameHomeButton: {fileID: 1750875386}
@@ -9614,7 +9611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -55.7, y: -43.214996}
+  m_AnchoredPosition: {x: -55.699997, y: -43.214996}
   m_SizeDelta: {x: 93.27, y: 19.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1774010625
@@ -11775,7 +11772,7 @@ MonoBehaviour:
   publishTopic: kimhungtdblla24/feeds/ttda-cnpm-so2ha
   autoConnect: 0
   mqttUserName: kimhungtdblla24
-  mqttPassword: aio_wLuL611O7Jvdl2FB18uwcmoSh6B7
+  mqttPassword: aio_ePMZ71gOBJ9nbkCBvmLZJvyONBBf
   autoTest: 0
   tempText: {fileID: 857435057}
   humiText: {fileID: 1218736241}
